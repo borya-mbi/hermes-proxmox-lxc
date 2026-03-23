@@ -15,13 +15,14 @@
 
 ## Що вже є в проєкті
 
-- `drafts/article.md` — чернетка майбутньої статті в стилі проєкту.
+- `docs/Hermes_Agent_Evolution.pdf` - архітектурне бачення та еволюція агента (додаткові матеріали).
+- `docs/article.md` - чернетка майбутньої статті в стилі проєкту.
 - `deploy/` - приклади локальних конфігів і службових таблиць.
 - `scripts/` - bash-скрипти для template, деплою, health-check, update і cleanup.
 - `deploy/authorized_keys.example` - локальний draft для SSH public keys, якщо потрібен доступ у контейнер.
 - `systemd/hermes-agent.service.tpl` - шаблон unit-файла для контейнера.
 - `templates/proxmox_interfaces.vmbr1-nat.example` - шаблон мережевої конфігурації хоста Proxmox.
-- `deploy/npm-proxy-hosts.tsv` - чернетка proxy-host записів для Nginx Proxy Manager.
+- `deploy/npm-proxy-hosts.tsv.example` - чернетка proxy-host записів для Nginx Proxy Manager.
 
 ## Рекомендована послідовність дій
 
@@ -31,7 +32,9 @@
 4. (Опційно) Додати SSH-ключі в `deploy/authorized_keys` та налаштувати прокід портів у `deploy/port-forwards.tsv`.
 5. Згенерувати доменну схему для майбутнього проксі: `bash scripts/generate_default_domains.sh`.
 6. Перевірити готовність конфігурації: `bash scripts/preflight_check.sh`.
-7. Підготувати мережу хоста: згенерувати NAT-правила (`bash scripts/generate_interfaces_nat_snippet.sh`) та додати їх у `/etc/network/interfaces`.
+7. Підготувати мережу хоста: 
+   - згенерувати NAT-правила: `bash scripts/generate_interfaces_nat_snippet.sh`
+   - додати виведені правила у `/etc/network/interfaces` в блок `iface vmbr1`.
 8. Створити golden template контейнера: `bash scripts/create_golden_template.sh`.
 9. Розгорнути перший агент: перевірити через `DRY_RUN=1 bash scripts/deploy_single_ct.sh 931`, потім запустити реально `DRY_RUN=0 ...`.
 10. Налаштувати доступ: згенерувати план (`bash scripts/generate_npm_proxy_plan.sh`) та додати Proxy Hosts у UI Nginx Proxy Manager.
@@ -61,7 +64,7 @@
 
 - За замовчуванням використовується `CT_UNPRIVILEGED=1`. Це має лишатися стандартом, якщо немає конкретної причини запускати privileged LXC.
 - У файлі `deploy/hermes-lxc.env` за замовчуванням встановлено `DRY_RUN=1`. Це захисний механізм. Для реальних дій використовуйте префікс `DRY_RUN=0` у командному рядку. Не змінюйте це значення безпосередньо у файлі конфігурації.
-- Локальні секрети й ключі винесені в `deploy/` і виключені з git через [.gitignore](.gitignore): `deploy/hermes.env`, `deploy/hermes-lxc.env`, `deploy/authorized_keys` та інші робочі файли.
+- Локальні секрети й ключі винесені в `deploy/` і виключені з git через `.gitignore`: `deploy/hermes.env`, `deploy/hermes-lxc.env`, `deploy/authorized_keys` та інші робочі файли.
 - `deploy/authorized_keys` лише встановлює ключі в контейнер. Для реального SSH-доступу всередині контейнера має бути доступний `openssh-server`.
 - Обмежте доступ до зовнішніх DNAT/HTTP-входів через `PVE Firewall` на рівні Datacenter/Node/CT (обов'язково для портів керування, наприклад `npm.yourdomain.com:81`).
 
