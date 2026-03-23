@@ -1,0 +1,4 @@
+# Add one SSH public key per line if you want bootstrap to install
+# authorized_keys into the container.
+# Example:
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... your.name@host

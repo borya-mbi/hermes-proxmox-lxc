@@ -1,0 +1,5 @@
+# public_port<TAB>proto<TAB>target<TAB>target_port<TAB>description
+80	tcp	npm	80	NPM public HTTP
+443	tcp	npm	443	NPM public HTTPS
+# 81	tcp	npm	81	NPM admin UI (expose only if really needed)
+

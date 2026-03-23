@@ -1,0 +1,4 @@
+# domain<TAB>scheme<TAB>target<TAB>target_port<TAB>websocket<TAB>description
+agent.yourdomain.com	http	931	8080	true	Main Hermes endpoint
+adm-931.yourdomain.com	http	931	8081	true	Hermes admin UI for CT 931
+# npm.yourdomain.com	http	npm	81	false	NPM admin UI (optional)
