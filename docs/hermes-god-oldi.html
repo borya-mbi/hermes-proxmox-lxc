@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналіз функціональної ролі Гермеса: Г.Л. Олді</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 400px;
+        }
+
+        .tab-active {
+            background-color: #f5f5f0;
+            border-bottom: 2px solid #92400e;
+            color: #1c1917;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Стилі для CSS-обкладинок книг */
+        .book-cover {
+            box-shadow: inset 4px 0 10px rgba(0, 0, 0, 0.1), inset -1px 0 2px rgba(255, 255, 255, 0.3), 5px 5px 15px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 8px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 10;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 800: '#292524', 900: '#1c1917' },
+                        gold: { 600: '#d97706', 700: '#b45309', 900: '#78350f' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-stone-50 text-stone-900 font-sans leading-normal">
+
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <h1 class="font-bold text-lg uppercase tracking-tight">Гермес: Функціональна модель</h1>
+            <nav class="hidden md:flex space-x-6 text-xs font-bold uppercase">
+                <a href="#genesis" class="hover:text-gold-700">Генезис</a>
+                <a href="#analysis" class="hover:text-gold-700">Аналіз</a>
+                <a href="#sources" class="hover:text-gold-700">Джерела</a>
+                <a href="#authors" class="hover:text-gold-700">Автори</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-12 space-y-20">
+
+        <!-- Section 1: Genesis of the Idea -->
+        <section id="genesis" class="space-y-6">
+            <h2 class="text-3xl font-bold tracking-tight">Походження концепції "Адміністратора"</h2>
+            <div class="grid md:grid-cols-2 gap-8 text-stone-800">
+                <div class="space-y-4">
+                    <p>
+                        Метафора "Системного адміністратора" виникає з деконструкції міфу, проведеної Г.Л. Олді в романі
+                        "Герой повинен бути один". Автори перетворюють богів на функціональні структури. Якщо Зевс - це
+                        джерело енергії та волі, то Гермес - оператор, який забезпечує зв'язок між вузлами системи
+                        (людьми та богами).
+                    </p>
+                    <p>
+                        У світі Олді боги обмежені законом Ананке (Неминучості). Гермес єдиний, хто сприймає цей закон
+                        не як обмеження, а як технічне завдання. Він адмініструє "протоколи" взаємодії, запобігаючи
+                        перевантаженню реальності Безумством (Аті).
+                    </p>
+                </div>
+                <div class="bg-stone-100 p-6 rounded-lg border border-stone-200">
+                    <h4 class="font-bold text-sm uppercase mb-4 text-gold-700">Ключові обов'язки "Адміністратора":</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2 font-medium">• Моніторинг рівня енергії в Тартарі</li>
+                        <li class="flex items-start gap-2 font-medium">• Логістика та верифікація героїв</li>
+                        <li class="flex items-start gap-2 font-medium">• Менеджмент божественних контрактів</li>
+                        <li class="flex items-start gap-2 font-medium">• Аудит переходів через межу смерті</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Radar Analysis -->
+        <section id="analysis" class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold">Профіль компетенцій</h2>
+                <p class="text-stone-500 text-sm mt-2">Порівняння функціоналу Гермеса в Олді та класичної міфології</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="competenceChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 3: Works & Sources (Tabs with CSS Covers) -->
+        <section id="sources" class="space-y-6">
+            <h2 class="text-2xl font-bold">Аналіз за джерелами</h2>
+            <div class="border border-stone-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                <div class="flex border-b border-stone-200 bg-stone-50" id="tabHeaders">
+                    <button class="flex-1 py-4 text-xs font-bold uppercase tab-active"
+                        onclick="openTab(event, 'tab-vol1')">Том 1: Людина Номосу</button>
+                    <button class="flex-1 py-4 text-xs font-bold uppercase" onclick="openTab(event, 'tab-vol2')">Том 2:
+                        Людина Космосу</button>
+                    <button class="flex-1 py-4 text-xs font-bold uppercase"
+                        onclick="openTab(event, 'tab-omnibus')">Повне видання</button>
+                </div>
+                <div class="p-8">
+
+                    <!-- Tab 1: Vol 1 -->
+                    <div id="tab-vol1" class="tab-content active space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-8 items-start">
+                            <div
+                                class="w-32 sm:w-40 shrink-0 rounded-r-md aspect-[2/3] book-cover bg-gradient-to-br from-stone-800 to-stone-900 border-l-4 border-gold-700 flex flex-col justify-center items-center p-4 text-center group cursor-default">
+                                <span
+                                    class="text-[10px] font-bold text-gold-600 uppercase tracking-widest mb-2 opacity-80">Г.Л.
+                                    Олді</span>
+                                <span class="text-sm font-bold text-stone-100 uppercase leading-snug">Одіссей, син
+                                    Лаерта</span>
+                                <div class="w-8 h-px bg-gold-700 my-3"></div>
+                                <span class="text-xs text-stone-300 italic">Книга перша</span>
+                            </div>
+                            <div class="space-y-4 flex-1">
+                                <h3 class="text-xl font-bold">Том 1. Людина Номосу</h3>
+                                <p class="text-stone-800">Початок шляху: тут Гермес постає як Дід та Наставник. Навчання
+                                    «кріволукавості» відбувається у межах земних, людських законів (Номосу). Ітака є
+                                    відправною точкою для формування системного аналітика античного світу.</p>
+                                <a href="https://oldie.world/uk/books/odysseus-son-of-laertes-vol-1-ua/" target="_blank"
+                                    class="inline-flex items-center gap-1 mt-2 px-4 py-2 bg-gold-600 hover:bg-gold-700 text-white rounded font-bold text-xs transition-colors">
+                                    Сторінка книги
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Vol 2 -->
+                    <div id="tab-vol2" class="tab-content space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-8 items-start">
+                            <div
+                                class="w-32 sm:w-40 shrink-0 rounded-r-md aspect-[2/3] book-cover bg-gradient-to-br from-stone-900 to-black border-l-4 border-gold-700 flex flex-col justify-center items-center p-4 text-center group cursor-default">
+                                <span
+                                    class="text-[10px] font-bold text-gold-600 uppercase tracking-widest mb-2 opacity-80">Г.Л.
+                                    Олді</span>
+                                <span class="text-sm font-bold text-stone-100 uppercase leading-snug">Одіссей, син
+                                    Лаерта</span>
+                                <div class="w-8 h-px bg-gold-700 my-3"></div>
+                                <span class="text-xs text-stone-300 italic">Книга друга</span>
+                            </div>
+                            <div class="space-y-4 flex-1">
+                                <h3 class="text-xl font-bold">Том 2. Людина Космосу</h3>
+                                <p class="text-stone-800">Вихід за межі: масштаб дій розширюється до вселенського
+                                    (Космос). Гермес виступає як провідник і психопомп у просторі, де смертний
+                                    стикається з божественним фатумом та Троянською кризою. Системні навички Одіссея
+                                    проходять найвищий стрес-тест.</p>
+                                <a href="https://oldie.world/uk/books/odysseus-son-of-laertes-vol-2-ua/" target="_blank"
+                                    class="inline-flex items-center gap-1 mt-2 px-4 py-2 bg-gold-600 hover:bg-gold-700 text-white rounded font-bold text-xs transition-colors">
+                                    Сторінка книги
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Omnibus -->
+                    <div id="tab-omnibus" class="tab-content space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-8 items-start">
+                            <div
+                                class="w-32 sm:w-40 shrink-0 rounded-r-md aspect-[2/3] book-cover bg-gradient-to-br from-gold-900 to-stone-900 border-l-4 border-gold-600 flex flex-col justify-center items-center p-4 text-center group cursor-default">
+                                <span
+                                    class="text-[10px] font-bold text-gold-500 uppercase tracking-widest mb-2 opacity-80">Г.Л.
+                                    Олді</span>
+                                <span class="text-sm font-bold text-stone-50 uppercase leading-snug">Одіссей, син
+                                    Лаерта</span>
+                                <div class="w-8 h-px bg-gold-500 my-3"></div>
+                                <span class="text-[10px] text-stone-300 uppercase tracking-widest">Повне видання</span>
+                            </div>
+                            <div class="space-y-4 flex-1">
+                                <h3 class="text-xl font-bold">Одіссей, син Лаерта (Повне видання)</h3>
+                                <p class="text-stone-800">Повний наративний цикл. Трансформація головного героя від
+                                    хлопчика, що слухає казки Автоліка (сина Гермеса), до царя Ітаки, який намагається
+                                    обдурити саму систему Неминучості (Ананке). Це маніфест самостійності людини в
+                                    ієрархії міфу.</p>
+                                <a href="https://oldie.world/uk/books/%d0%be%d0%b4%d1%96%d1%81%d1%81%d0%b5%d0%b9-%d1%81%d0%b8%d0%bd-%d0%bb%d0%b0%d0%b5%d1%80%d1%82%d0%b0/"
+                                    target="_blank"
+                                    class="inline-flex items-center gap-1 mt-2 px-4 py-2 bg-gold-600 hover:bg-gold-700 text-white rounded font-bold text-xs transition-colors">
+                                    Сторінка книги
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Quantitative Methods -->
+        <section class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold">Матриця втручань</h2>
+                <p class="text-stone-600 text-sm">
+                    Статистичний розподіл методів, які Гермес використовує для корекції сюжету. Пріоритет надається
+                    вербальному впливу та управлінню обставинами.
+                </p>
+                <div class="pt-4 space-y-2">
+                    <div class="flex justify-between text-xs font-bold"><span>Вербальна
+                            маніпуляція</span><span>92%</span></div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full">
+                        <div class="bg-gold-600 h-1.5 rounded-full" style="width: 92%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs font-bold"><span>Юридичні угоди</span><span>85%</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full">
+                        <div class="bg-gold-600 h-1.5 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-64">
+                <canvas id="methodsChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 5: Definitions -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold">Аспекти термінології</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="p-6 border border-stone-200 rounded-lg">
+                    <div class="font-bold text-gold-700 mb-2">Кріволукавість</div>
+                    <p class="text-xs text-stone-600">Системний аналіз та пошук нелінійних шляхів вирішення проблем.</p>
+                </div>
+                <div class="p-6 border border-stone-200 rounded-lg">
+                    <div class="font-bold text-gold-700 mb-2">Долій</div>
+                    <p class="text-xs text-stone-600">Бог як гарант дотримання умов та завершення транзакцій.</p>
+                </div>
+                <div class="p-6 border border-stone-200 rounded-lg">
+                    <div class="font-bold text-gold-700 mb-2">Психопомп</div>
+                    <p class="text-xs text-stone-600">Провідник інформації та енергії між різними рівнями реальності.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: About Authors (NEW) -->
+        <section id="authors" class="border-t border-stone-200 pt-16">
+            <div class="bg-stone-100 rounded-2xl p-8 md:p-10 relative overflow-hidden">
+                <!-- Decorative background element -->
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-gold-600 opacity-5 rounded-full blur-2xl"></div>
+
+                <h2 class="text-2xl font-bold mb-6 relative z-10">Творці Системи: Генрі Лайон Олді</h2>
+                <div class="grid md:grid-cols-3 gap-8 relative z-10">
+                    <div class="md:col-span-2 space-y-4 text-stone-800">
+                        <p>
+                            За псевдонімом <strong>«Генрі Лайон Олді»</strong> стоїть знаменитий письменницький дует
+                            харків'ян — <strong>Дмитро Громов</strong> та <strong>Олег Ладиженський</strong>. Вони
+                            працюють у співавторстві з 1990 року, створюючи багатогранні світи, де міфологія
+                            переплітається з глибоким системним та філософським аналізом.
+                        </p>
+                        <p>
+                            Цікаво, що сама постать «Генрі Лайона Олді» є своєрідним міфом. Автори вигадали для свого
+                            псевдоніма деталізовану біографію: нібито він народився 1945 року в Англії, а його батько
+                            був місіонером у Бутані. Ця літературна містифікація ідеально відображає їхній творчий метод
+                            — конструювання нових реальностей.
+                        </p>
+                        <p class="text-sm text-stone-600 mt-4 border-l-2 border-gold-600 pl-4">
+                            Відзначені званням Найкращих європейських письменників-фантастів (ESFS, 2006) та є
+                            лауреатами десятків інших нагород, зокрема Національної премії України з фантастики.
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-xs uppercase text-stone-500 mb-2">Офіційне джерело</h4>
+                            <p class="text-sm font-medium mb-4">Більше інформації про біографію авторів, їхній шлях та
+                                діяльність під час війни в Україні.</p>
+                            <a href="https://oldie.world/uk/about-authors-uk/" target="_blank"
+                                class="block w-full text-center px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded font-bold text-xs transition-colors">
+                                Читати біографію
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-100 border-t border-stone-200 py-12">
+        <div class="max-w-6xl mx-auto px-6 text-center space-y-2">
+            <div class="text-stone-500 text-xs font-bold uppercase tracking-widest">
+                Звіт сформовано на основі аналізу Ахейського циклу
+            </div>
+            <div class="text-stone-400 text-xs">
+                © Генрі Лайон Олді (Дмитро Громов, Олег Ладиженський)
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching logic
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementById("tabHeaders").getElementsByTagName("button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("tab-active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("tab-active");
+        }
+
+        // Charts configuration
+        Chart.defaults.font.family = "'Inter', 'sans-serif'";
+        Chart.defaults.color = '#444';
+
+        window.onload = function () {
+            // Radar Chart
+            const ctxComp = document.getElementById('competenceChart').getContext('2d');
+            new Chart(ctxComp, {
+                type: 'radar',
+                data: {
+                    labels: ['Системна Логіка', 'Фізична Могутність', 'Дипломатія', 'Автономність', 'Адміністрування', 'Емпатія'],
+                    datasets: [{
+                        label: 'Гермес (Олді)',
+                        data: [98, 20, 95, 85, 95, 60],
+                        backgroundColor: 'rgba(180, 83, 9, 0.2)',
+                        borderColor: '#b45309',
+                        pointBackgroundColor: '#b45309',
+                        borderWidth: 2
+                    }, {
+                        label: 'Гермес (Міф)',
+                        data: [65, 55, 80, 40, 30, 40],
+                        backgroundColor: 'rgba(100, 116, 139, 0.1)',
+                        borderColor: '#64748b',
+                        borderWidth: 1,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { r: { min: 0, max: 100, ticks: { display: false } } },
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // Horizontal Bar Chart
+            const ctxMethods = document.getElementById('methodsChart').getContext('2d');
+            new Chart(ctxMethods, {
+                type: 'bar',
+                data: {
+                    labels: ['Контракти', 'Інформація', 'Поради', 'Логістика', 'Магія', 'Сила'],
+                    datasets: [{
+                        data: [90, 95, 80, 85, 20, 5],
+                        backgroundColor: '#d97706',
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, max: 100, ticks: { display: false }, grid: { display: false } }, y: { grid: { display: false } } }
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>
