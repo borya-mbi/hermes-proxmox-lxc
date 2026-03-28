@@ -1,0 +1,5 @@
+# public_port<TAB>proto<TAB>target<TAB>target_port<TAB>description
+# Цей файл описує лише зовнішні порти, які треба направити на NPM.
+80	tcp	npm	80	Публічний HTTP на Nginx Proxy Manager
+443	tcp	npm	443	Публічний HTTPS на Nginx Proxy Manager
+# 81	tcp	npm	81	Адмін-панель NPM; відкривайте назовні лише за реальної потреби

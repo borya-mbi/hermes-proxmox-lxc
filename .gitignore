@@ -1,0 +1,36 @@
+deploy/hermes-lxc.env
+deploy/hermes.env
+deploy/container-notes.tsv
+deploy/authorized_keys
+deploy/port-forwards.tsv
+deploy/npm-proxy-hosts.tsv
+deploy/container_info.tsv
+deploy/failed_ctids.txt
+deploy/*.bak
+deploy/config.yaml
+deploy/hermes-user.env
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Trash-*
+ehthumbs.db
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Agent workflows & drafts
+refined_analysis.md.resolved
+docs/archive/
+_agents/
+*.pptx
+FLASH_IMPLEMENTATION_PLAN.md
+FLASH_IMPLEMENTATION_PLAN.md
+TODO.md
+DEPLOY_HERMES_V3_FLASH_IMPLEMENTATION_PLAN.md

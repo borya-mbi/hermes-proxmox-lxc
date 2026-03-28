@@ -1,0 +1,37 @@
+# Приклад config.yaml для Hermes Agent.
+# Цей файл - шаблон. Реальні ключі зберігайте у deploy/config.yaml (не комітиться).
+# Поля ${...} підставляються автоматично через scripts/sync_configs.sh.
+#
+# Копіюється у ~/.hermes/config.yaml кожного користувача при bootstrap.
+
+TELEGRAM_HOME_CHANNEL: '${TG_CHANNEL_ID}'
+
+model:
+  default: models/gemini-2.5-flash-lite
+  provider: custom:google-m2
+  base_url: https://generativelanguage.googleapis.com/v1beta/openai
+
+agent:
+  system_prompt_suffix: >
+    ### Global Style Guidelines
+    - ALWAYS respond in Ukrainian.
+    - NO EM-DASHES (-, -). USE ONLY HYPHENS (-).
+    - Apply anti-slop rules (no "paradigm", "synergy", "delve").
+    - Be a direct, intellectually autonomous assistant.
+
+custom_providers:
+  - name: google-m1
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key: ${GOOGLE_API_KEY_1}
+  - name: google-m2
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key: ${GOOGLE_API_KEY_2}
+  - name: google-m3
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key: ${GOOGLE_API_KEY_3}
+
+# OPENAI_API_KEY у .env використовується як основний ключ для OpenRouter.
+# Custom providers вище дозволяють швидко перемикатися між API ключами.
+
+approvals:
+  mode: smart

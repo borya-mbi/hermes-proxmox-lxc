@@ -1,0 +1,25 @@
+auto vmbr0
+iface vmbr0 inet static
+    address 203.0.113.1/26
+    gateway 203.0.113.254
+    bridge-ports enp7s0
+    bridge-stp off
+    bridge-fd 0
+    pointopoint 203.0.113.254
+    post-up ip route add 203.0.113.0/26 via 203.0.113.254 dev vmbr0 || true
+
+auto vmbr1
+iface vmbr1 inet static
+    address 192.168.10.1/24
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+    post-up sysctl -w net.ipv4.ip_forward=1
+    post-up iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -o vmbr0 -j MASQUERADE
+    post-up iptables -A FORWARD -i vmbr1 -o vmbr0 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+    post-up iptables -A FORWARD -i vmbr0 -o vmbr1 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    post-down iptables -D FORWARD -i vmbr1 -o vmbr0 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+    post-down iptables -D FORWARD -i vmbr0 -o vmbr1 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    post-down iptables -t nat -D POSTROUTING -s 192.168.10.0/24 -o vmbr0 -j MASQUERADE
+    # Add generated DNAT rules below with:
+    # bash scripts/generate_interfaces_nat_snippet.sh

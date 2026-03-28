@@ -1,0 +1,4 @@
+# Додайте по одному SSH public key у кожному рядку, якщо хочете,
+# щоб bootstrap встановив authorized_keys усередині контейнера.
+# Приклад:
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... your.name@host

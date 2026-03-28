@@ -1,0 +1,7 @@
+# domain<TAB>scheme<TAB>target<TAB>target_port<TAB>websocket<TAB>description
+# target може бути CTID, `npm` або явна IP-адреса.
+# Якщо окремого portal LXC немає, замініть `930` на CTID першого Hermes.
+agent.example.com	http	930	80	true	Головний портал Hermes
+agent-931.example.com	http	931	8080	true	Чат Hermes для CT 931
+adm-931.example.com	http	931	8081	true	Керуюча сторінка Hermes для CT 931
+# npm.example.com	http	npm	81	false	Адмін-панель Nginx Proxy Manager (опційно)

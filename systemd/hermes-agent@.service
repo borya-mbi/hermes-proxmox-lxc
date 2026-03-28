@@ -1,0 +1,36 @@
+[Unit]
+Description=Hermes Agent Messaging Gateway for %i
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+Group=%i
+WorkingDirectory=/home/%i
+
+Environment=USER=%i
+Environment=HOME=/home/%i
+Environment=HERMES_HOME=/home/%i/.hermes
+Environment=PATH=/home/%i/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+EnvironmentFile=-/home/%i/.hermes/.env
+ExecStart=/home/%i/.local/bin/hermes gateway run
+
+Restart=always
+RestartSec=10
+
+# Systemd Hardening
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+RestrictRealtime=yes
+
+# Resource Limits (Noisy Neighbor Protection)
+MemoryHigh=1G
+MemoryMax=1536M
+CPUQuota=150%
+
+[Install]
+WantedBy=multi-user.target

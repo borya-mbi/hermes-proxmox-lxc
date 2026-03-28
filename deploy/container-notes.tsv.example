@@ -1,0 +1,3 @@
+# ctid<TAB>description
+# Додавайте лише ті CTID, які реально існують у Proxmox.
+931	Hermes Agent / основний робочий контейнер / owner: AG
