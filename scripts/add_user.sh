@@ -52,7 +52,7 @@ pct exec "$ctid" -- install -d -m 700 /root/bootstrap
 pct push "$ctid" "$LXC_ENV_FILE" /root/bootstrap/hermes-bootstrap.env
 pct push "$ctid" "$USER_ENV_FILE" /root/bootstrap/hermes-user.env
 pct push "$ctid" "$CONFIG_YAML_FILE" /root/bootstrap/config.yaml
-pct push "$ctid" "$SYSTEMD_SERVICE_FILE" /root/bootstrap/hermes-agent@.service
+pct push "$ctid" "$SYSTEMD_SERVICE_FILE" /root/bootstrap/hms@.service
 
 # We need a way to run JUST setup_user for this person.
 # We can create a temporary script inside the container and run it.
@@ -77,7 +77,7 @@ get_repo_url() {
 BOOTSTRAP_DIR="/root/bootstrap"
 USER_ENV_TEMPLATE="\$BOOTSTRAP_DIR/hermes-user.env"
 CONFIG_YAML_TEMPLATE="\$BOOTSTRAP_DIR/config.yaml"
-SERVICE_TEMPLATE="\$BOOTSTRAP_DIR/hermes-agent@.service"
+SERVICE_TEMPLATE="\$BOOTSTRAP_DIR/hms@.service"
 
 user="$username"
 branch="$branch"
@@ -137,15 +137,15 @@ chmod 600 "/home/\$user/.hermes/.env" "/home/\$user/.hermes/config.yaml" "/home/
 
 # Update sudoers
 sudoers_file="/etc/sudoers.d/hermes-users"
-if ! grep -q "hermes-agent@${username}.service" "\$sudoers_file" 2>/dev/null; then
-  printf '${username} ALL=(root) NOPASSWD: /bin/systemctl restart hermes-agent@${username}.service, /bin/systemctl stop hermes-agent@${username}.service, /bin/systemctl status hermes-agent@${username}.service, /bin/journalctl -u hermes-agent@${username}.service *\n' >> "\$sudoers_file"
+if ! grep -q "hms@${username}.service" "\$sudoers_file" 2>/dev/null; then
+  printf '${username} ALL=(root) NOPASSWD: /bin/systemctl restart hms@${username}.service, /bin/systemctl stop hms@${username}.service, /bin/systemctl status hms@${username}.service, /bin/journalctl -u hms@${username}.service *\n' >> "\$sudoers_file"
   chmod 440 "\$sudoers_file"
 fi
 
 # Service
-cp "\$SERVICE_TEMPLATE" "/etc/systemd/system/hermes-agent@.service"
+cp "\$SERVICE_TEMPLATE" "/etc/systemd/system/hms@.service"
 systemctl daemon-reload
-systemctl enable --now "hermes-agent@\$user"
+systemctl enable --now "hms@\$user"
 
 EOF
 

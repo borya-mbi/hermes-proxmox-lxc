@@ -29,7 +29,7 @@ for offset in $(seq 0 $((count - 1))); do
   fi
 
   for user in $(all_hermes_users); do
-    service_name="hermes-agent@$user"
+    service_name="hms@$user"
     
     # Status
     service_status="$(pct exec "$ctid" -- systemctl is-active "$service_name" 2>/dev/null || echo "failed")"

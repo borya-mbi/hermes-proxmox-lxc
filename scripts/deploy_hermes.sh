@@ -36,7 +36,7 @@ for offset in $(seq 0 $((deploy_count - 1))); do
     printf '[DRY-RUN] pct push %s %s /root/bootstrap/hermes-bootstrap.env\n' "$ctid" "$LXC_ENV_FILE"
     printf '[DRY-RUN] pct push %s %s /root/bootstrap/hermes-user.env\n' "$ctid" "$USER_ENV_FILE"
     printf '[DRY-RUN] pct push %s %s /root/bootstrap/config.yaml\n' "$ctid" "$CONFIG_YAML_FILE"
-    printf '[DRY-RUN] pct push %s %s /root/bootstrap/hermes-agent@.service\n' "$ctid" "$SYSTEMD_SERVICE_FILE"
+    printf '[DRY-RUN] pct push %s %s /root/bootstrap/hms@.service\n' "$ctid" "$SYSTEMD_SERVICE_FILE"
     printf '[DRY-RUN] pct push %s %s /root/bootstrap_hermes.sh\n' "$ctid" "$SCRIPT_DIR/bootstrap_hermes.sh"
     if file_has_noncomment_lines "${AUTHORIZED_KEYS_FILE:-}"; then
       printf '[DRY-RUN] pct push %s %s /root/bootstrap/authorized_keys\n' "$ctid" "$AUTHORIZED_KEYS_FILE"
@@ -89,7 +89,7 @@ for offset in $(seq 0 $((deploy_count - 1))); do
     "$LXC_ENV_FILE:/root/bootstrap/hermes-bootstrap.env" \
     "$USER_ENV_FILE:/root/bootstrap/hermes-user.env" \
     "$CONFIG_YAML_FILE:/root/bootstrap/config.yaml" \
-    "$SYSTEMD_SERVICE_FILE:/root/bootstrap/hermes-agent@.service" \
+    "$SYSTEMD_SERVICE_FILE:/root/bootstrap/hms@.service" \
     "$SCRIPT_DIR/bootstrap_hermes.sh:/root/bootstrap_hermes.sh"; do
     local_file="${push_pair%%:*}"
     remote_file="${push_pair##*:}"
@@ -118,8 +118,8 @@ for offset in $(seq 0 $((deploy_count - 1))); do
   log "Checking services status in $ctid..."
   all_active=true
   for user in $(all_hermes_users); do
-    if ! pct exec "$ctid" -- systemctl is-active --quiet "hermes-agent@$user"; then
-      warn "Service hermes-agent@$user is not active in $ctid"
+    if ! pct exec "$ctid" -- systemctl is-active --quiet "hms@$user"; then
+      warn "Service hms@$user is not active in $ctid"
       all_active=false
     fi
   done

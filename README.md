@@ -7,7 +7,7 @@
 ## Архітектура v2
 
 - **Один контейнер - багато користувачів**: Кожен Linux-користувач має власний інстанс Hermes.
-- **Systemd Template Units**: Керування інстансами через `hermes-agent@<user>.service`.
+- **Systemd Template Units**: Керування інстансами через `hms@<user>.service`.
 - **Fork Workflow**: Підтримка власних форків Hermes Agent з різними гілками для Prod та Dev.
 - **Security Hardening**: `chmod 700` on домашні папки, обмеження `sudoers` та `cgroups` ліміти (Memory/CPU) на рівні сервісу.
 - **Claude Code**: Автоматичне per-user встановлення через `npm` з локальним префіксом.

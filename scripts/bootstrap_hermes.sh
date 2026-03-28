@@ -56,7 +56,7 @@ generate_sudoers() {
   log "Generating sudoers for Hermes users..."
   : > "$sudoers_file"
   for user in $(all_hermes_users); do
-    printf '%s ALL=(root) NOPASSWD: /bin/systemctl restart hermes-agent@%s.service, /bin/systemctl stop hermes-agent@%s.service, /bin/systemctl status hermes-agent@%s.service, /bin/journalctl -u hermes-agent@%s.service *\n' \
+    printf '%s ALL=(root) NOPASSWD: /bin/systemctl restart hms@%s.service, /bin/systemctl stop hms@%s.service, /bin/systemctl status hms@%s.service, /bin/journalctl -u hms@%s.service *\n' \
       "$user" "$user" "$user" "$user" "$user" >> "$sudoers_file"
   done
   chmod 440 "$sudoers_file"
@@ -68,7 +68,7 @@ BOOTSTRAP_DIR="/root/bootstrap"
 ENV_FILE="$BOOTSTRAP_DIR/hermes-bootstrap.env"
 USER_ENV_TEMPLATE="$BOOTSTRAP_DIR/hermes-user.env"
 CONFIG_YAML_SOURCE="$BOOTSTRAP_DIR/config.yaml"
-SERVICE_TEMPLATE="$BOOTSTRAP_DIR/hermes-agent@.service"
+SERVICE_TEMPLATE="$BOOTSTRAP_DIR/hms@.service"
 AUTH_KEYS_FILE="$BOOTSTRAP_DIR/authorized_keys"
 
 log "Loading bootstrap environment..."
@@ -252,13 +252,13 @@ generate_sudoers
 
 log "Installing systemd template unit..."
 if [ -f "$SERVICE_TEMPLATE" ]; then
-  cp "$SERVICE_TEMPLATE" "/etc/systemd/system/hermes-agent@.service"
+  cp "$SERVICE_TEMPLATE" "/etc/systemd/system/hms@.service"
   systemctl daemon-reload
   
   for user in $(all_hermes_users); do
     log "Enabling and starting service for $user..."
-    systemctl enable "hermes-agent@$user"
-    systemctl start "hermes-agent@$user"
+    systemctl enable "hms@$user"
+    systemctl start "hms@$user"
   done
 else
   log "Warning: systemd service template not found at $SERVICE_TEMPLATE"

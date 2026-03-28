@@ -19,9 +19,9 @@ Proxmox Host (IP: 203.0.113.12)
   |- vmbr1 (Private Network: 192.168.10.1/24)
   |
   |- [LXC 931] (IP: 192.168.10.31) - Hermes Multi-User Node
-       |- User: user1 (Prod) -> Service: hermes-agent@user1.service
-       |- User: user2 (Prod) -> Service: hermes-agent@user2.service
-       |- User: dev-user (Dev) -> Service: hermes-agent@dev-user.service
+       |- User: user1 (Prod) -> Service: hms@user1.service
+       |- User: user2 (Prod) -> Service: hms@user2.service
+       |- User: dev-user (Dev) -> Service: hms@dev-user.service
 ```
 
 ## Про DHCP та мережу
@@ -67,7 +67,7 @@ HERMES_DEV_BRANCH=custom-features
 - `scripts/bootstrap_hermes.sh` - Скрипт повної підготовки контейнера.
 - `scripts/upgrade_prod.sh` - Безпечне оновлення з бекапом та версіонуванням.
 - `scripts/sync_configs.sh` - Розумна синхронізація шаблонів через `envsubst`.
-- `systemd/hermes-agent@.service` - Template unit для всіх користувачів.
+- `systemd/hms@.service` - Template unit для всіх користувачів.
 
 ## Старт із робочої директорії
 
@@ -134,7 +134,7 @@ su - user1 -c 'claude login'
 3. **Sudoers**: Файл `/etc/sudoers.d/hermes-users` дозволяє користувачам керувати **тільки своїм** сервісом:
    ```bash
    # Дозволено для користувача user1:
-   sudo systemctl restart hermes-agent@user1.service
+   sudo systemctl restart hms@user1.service
    ```
 4. **Log Rotation**: Journald обмежено до 500MB, щоб логи багатьох агентів не переповнили диск.
 5. **Ізоляція портів**: Кожен користувач отримує унікальний порт (наприклад, user1=8080, user2=8081), що запобігає конфліктам при одночасній роботі декількох агентів.
@@ -158,12 +158,12 @@ bash scripts/sync_configs.sh 931 user1
 
 ## Systemd template units
 
-Ми використовуємо магію `%i` у назві сервісу. Файл `systemd/hermes-agent@.service` автоматично підставляє ім'я користувача всюди: від робочої директорії до назви процесу.
+Ми використовуємо магію `%i` у назві сервісу. Файл `systemd/hms@.service` автоматично підставляє ім'я користувача всюди: від робочої директорії до назви процесу.
 
 Команди керування:
 ```bash
-systemctl status hermes-agent@user1.service
-journalctl -u hermes-agent@user1.service -f
+systemctl status hms@user1.service
+journalctl -u hms@user1.service -f
 ```
 
 ## Health-check

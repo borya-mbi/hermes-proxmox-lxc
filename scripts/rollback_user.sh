@@ -37,8 +37,8 @@ if ! pct exec "$ctid" -- test -d "$BACKUP_DIR"; then
   die "Backup directory not found: $BACKUP_DIR in $ctid"
 fi
 
-log "Stopping service hermes-agent@$username..."
-pct exec "$ctid" -- systemctl stop "hermes-agent@$username"
+log "Stopping service hms@$username..."
+pct exec "$ctid" -- systemctl stop "hms@$username"
 
 log "Restoring binary, database and configs from $backup_timestamp..."
 pct exec "$ctid" -- su - "$username" -c "cp ${BACKUP_DIR}/hermes.old $HERMES_BIN && \
@@ -46,13 +46,13 @@ pct exec "$ctid" -- su - "$username" -c "cp ${BACKUP_DIR}/hermes.old $HERMES_BIN
   if [ -f ${BACKUP_DIR}/env.old ]; then cp ${BACKUP_DIR}/env.old ~/.hermes/.env; fi && \
   if [ -f ${BACKUP_DIR}/config.yaml.old ]; then cp ${BACKUP_DIR}/config.yaml.old ~/.hermes/config.yaml; fi"
 
-log "Starting service hermes-agent@$username..."
-pct exec "$ctid" -- systemctl start "hermes-agent@$username"
+log "Starting service hms@$username..."
+pct exec "$ctid" -- systemctl start "hms@$username"
 
 log "Waiting for service to stabilize..."
 sleep 5
 
-if ! pct exec "$ctid" -- systemctl is-active --quiet "hermes-agent@$username"; then
+if ! pct exec "$ctid" -- systemctl is-active --quiet "hms@$username"; then
   die "Service failed to start after rollback for $username in $ctid."
 fi
 

@@ -120,7 +120,7 @@ load_lxc_env() {
   LXC_ENV_FILE="$env_file"
   USER_ENV_FILE="$(resolve_path "${LOCAL_HERMES_USER_ENV_FILE:-deploy/hermes-user.env}")"
   CONFIG_YAML_FILE="$(resolve_path "${LOCAL_CONFIG_YAML_FILE:-deploy/config.yaml}")"
-  SYSTEMD_SERVICE_FILE="$(resolve_path "${SYSTEMD_SERVICE_FILE:-systemd/hermes-agent@.service}")"
+  SYSTEMD_SERVICE_FILE="$(resolve_path "${SYSTEMD_SERVICE_FILE:-systemd/hms@.service}")"
   CONTAINER_INFO_FILE="$(resolve_path "${CONTAINER_INFO_FILE:-deploy/container_info.tsv}")"
   FAILED_CTIDS_FILE="$(resolve_path "${FAILED_CTIDS_FILE:-deploy/failed_ctids.txt}")"
   NOTES_FILE="$(resolve_path "${NOTES_FILE:-deploy/container-notes.tsv}")"
@@ -169,7 +169,7 @@ load_lxc_env() {
   if [ -n "$AUTHORIZED_KEYS_FILE" ]; then
     AUTHORIZED_KEYS_FILE="$(resolve_path "$AUTHORIZED_KEYS_FILE")"
   fi
-  HERMES_SERVICE_NAME="${HERMES_SERVICE_NAME:-hermes-agent}"
+  HERMES_SERVICE_NAME="${HERMES_SERVICE_NAME:-hms}"
 
   # Multi-user & Fork variables
   HERMES_PROD_USERS="${HERMES_PROD_USERS:-user1 user2}"
@@ -383,7 +383,7 @@ generate_sudoers() {
   local user
   : > "$sudoers_file"
   for user in $(all_hermes_users); do
-    printf '%s ALL=(root) NOPASSWD: /bin/systemctl restart hermes-agent@%s.service, /bin/systemctl stop hermes-agent@%s.service, /bin/systemctl status hermes-agent@%s.service, /bin/journalctl -u hermes-agent@%s.service *\n' \
+    printf '%s ALL=(root) NOPASSWD: /bin/systemctl restart hms@%s.service, /bin/systemctl stop hms@%s.service, /bin/systemctl status hms@%s.service, /bin/journalctl -u hms@%s.service *\n' \
       "$user" "$user" "$user" "$user" "$user" >> "$sudoers_file"
   done
   chmod 440 "$sudoers_file"

@@ -54,21 +54,21 @@ if ! pct exec "$ctid" -- su - "$username" -c "HERMES_REPO_URL='$repo_url' HERMES
   die "Upgrade failed. Binary rolled back."
 fi
 
-log "Restarting service hermes-agent@$username..."
-pct exec "$ctid" -- systemctl restart "hermes-agent@$username"
+log "Restarting service hms@$username..."
+pct exec "$ctid" -- systemctl restart "hms@$username"
 
 log "Waiting for service to stabilize..."
 sleep 5
 
-if ! pct exec "$ctid" -- systemctl is-active --quiet "hermes-agent@$username"; then
+if ! pct exec "$ctid" -- systemctl is-active --quiet "hms@$username"; then
   log "Service failed to start after upgrade! Rolling back..."
-  pct exec "$ctid" -- systemctl stop "hermes-agent@$username"
+  pct exec "$ctid" -- systemctl stop "hms@$username"
   pct exec "$ctid" -- su - "$username" -c "cp ${BACKUP_DIR}/hermes.old $HERMES_BIN"
   if pct exec "$ctid" -- test -f "${BACKUP_DIR}/hermes.db.old"; then 
     pct exec "$ctid" -- su - "$username" -c "cp ${BACKUP_DIR}/hermes.db.old $HERMES_DB"
   fi
   pct exec "$ctid" -- su - "$username" -c "cp ${BACKUP_DIR}/env.old ~/.hermes/.env && cp ${BACKUP_DIR}/config.yaml.old ~/.hermes/config.yaml"
-  pct exec "$ctid" -- systemctl start "hermes-agent@$username"
+  pct exec "$ctid" -- systemctl start "hms@$username"
   die "Service check failed. Rollback complete."
 fi
 

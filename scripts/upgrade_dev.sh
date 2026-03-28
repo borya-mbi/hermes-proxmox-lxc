@@ -35,13 +35,13 @@ if ! pct exec "$ctid" -- su - "$username" -c "HERMES_REPO_URL='$repo_url' HERMES
   die "Installation failed for $username in $ctid."
 fi
 
-log "Rebuilding/Restarting service hermes-agent@$username..."
-pct exec "$ctid" -- systemctl restart "hermes-agent@$username"
+log "Rebuilding/Restarting service hms@$username..."
+pct exec "$ctid" -- systemctl restart "hms@$username"
 
 log "Waiting for service to stabilize..."
 sleep 5
 
-if ! pct exec "$ctid" -- systemctl is-active --quiet "hermes-agent@$username"; then
+if ! pct exec "$ctid" -- systemctl is-active --quiet "hms@$username"; then
   die "Service failed to start after install for $username in $ctid."
 fi
 

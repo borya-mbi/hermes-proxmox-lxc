@@ -1,5 +1,5 @@
 [Unit]
-Description=Hermes Agent Messaging Gateway for %i
+Description=HMS Gateway for %i
 After=network.target
 
 [Service]

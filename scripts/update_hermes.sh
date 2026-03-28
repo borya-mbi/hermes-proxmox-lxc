@@ -39,7 +39,7 @@ for offset in $(seq 0 $((count - 1))); do
   pct push "$ctid" "$LXC_ENV_FILE" /root/bootstrap/hermes-bootstrap.env
   pct push "$ctid" "$USER_ENV_FILE" /root/bootstrap/hermes-user.env
   pct push "$ctid" "$CONFIG_YAML_FILE" /root/bootstrap/config.yaml
-  pct push "$ctid" "$SYSTEMD_SERVICE_FILE" /root/bootstrap/hermes-agent@.service
+  pct push "$ctid" "$SYSTEMD_SERVICE_FILE" /root/bootstrap/hms@.service
   pct push "$ctid" "$SCRIPT_DIR/bootstrap_hermes.sh" /root/bootstrap_hermes.sh
   
   if file_has_noncomment_lines "${AUTHORIZED_KEYS_FILE:-}"; then

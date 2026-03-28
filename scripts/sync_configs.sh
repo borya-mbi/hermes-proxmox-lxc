@@ -34,12 +34,12 @@ log "Running config synchronization in $ctid..."
 pct exec "$ctid" -- su - "$username" -c "set -a && source ${USER_ENV} && set +a && envsubst '\$TG_CHANNEL_ID \$GOOGLE_API_KEY_1 \$GOOGLE_API_KEY_2 \$GOOGLE_API_KEY_3' < ${HERMES_HOME}/config.yaml.tpl > ${USER_CONFIG}"
 
 log "Config synchronized for $username. Restarting service..."
-pct exec "$ctid" -- systemctl restart "hermes-agent@$username"
+pct exec "$ctid" -- systemctl restart "hms@$username"
 
 log "Waiting for service to stabilize..."
 sleep 5
 
-if ! pct exec "$ctid" -- systemctl is-active --quiet "hermes-agent@$username"; then
+if ! pct exec "$ctid" -- systemctl is-active --quiet "hms@$username"; then
   die "Service failed to start after config sync for $username in $ctid."
 fi
 
