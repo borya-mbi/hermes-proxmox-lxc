@@ -1,12 +1,12 @@
 # deploy-hermes v2 (Multi-User)
 
-Каркас для професійного деплою [Hermes Agent](https://hermes-agent.nousresearch.com/) та [Claude Code](https://claude.ai/code) у `Proxmox VE + LXC`. 
+Скрипти для розгортання [Hermes Agent](https://hermes-agent.nousresearch.com/) та [Claude Code](https://claude.ai/code) у `Proxmox VE + LXC`. 
 
-Версія v2 переходить від моделі "1 LXC = 1 Hermes" до моделі **"1 LXC = N користувачів"**, що суттєво економить ресурси Proxmox та дозволяє реалізувати повноцінний DTAP (Development, Testing, Acceptance, Production) workflow.
+Версія v2 переходить від моделі "1 LXC = 1 Hermes" до моделі **"1 LXC = N користувачів"**, що зменшує споживання ресурсів Proxmox та дозволяє реалізувати повноцінний DTAP (Development, Testing, Acceptance, Production) workflow.
 
 ## 📖 Документація та аналіз
 Для глибокого розуміння концепції проекту перегляньте інтерактивний аналітичний звіт:
-- [📊 **Гермес: Функціональна модель (Аналіз Г.Л. Олді)**](https://htmlpreview.github.io/?https://github.com/borya-mbi/hermes-proxmox-lxc/blob/main/docs/hermes-god-oldi.html) — *інтерактивна сторінка з графіками та детальним розбором ролі "Адміністратора Космосу".*
+- [📊 **Аналіз функціональної моделі (Г.Л. Олді)**](https://raw.githack.com/borya-mbi/hermes-proxmox-lxc/main/docs/hermes-god-oldi.html) - Опис ролі Гермеса як системного оператора Олімпу. Графіки компетенцій та методи впливу на сюжет.
 
 ## Архітектура v2
 
